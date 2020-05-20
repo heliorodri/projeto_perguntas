@@ -4,6 +4,10 @@ main() => runApp(PerguntaApp());
 
 @override
 class PerguntaApp extends StatelessWidget {
+  final perguntas = [
+    'Qual o seu time do coração?',
+    'Qual jogador fez você gostar de futebol?'
+  ];
   
   Widget build(BuildContext context){
     return MaterialApp(
@@ -11,7 +15,19 @@ class PerguntaApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Text('Olá Flutter!'),
+        body: Column(
+          children: [
+            Text(perguntas[0]),
+            RaisedButton(
+              child: Text('Grêmio'),
+              onPressed: null,  
+            ),
+            RaisedButton(
+              child: Text('Inter'),
+              onPressed: null,  
+            )
+          ],
+        ),
       ),
     );
   }
