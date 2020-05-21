@@ -7,18 +7,30 @@ main() => runApp(PerguntaApp());
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
 
-  void _responder(){
+  void _responder() {
     setState(() {
       _perguntaSelecionada++;
     });
-   }
+  }
 
-  @override  
-  Widget build(BuildContext context){
-    final perguntas = [
-      'Qual o seu time do coração?',
-      'Qual jogador você gostaria de ter no seu time?'
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, Object>> perguntas = [
+      {
+        'texto': 'Qual o seu time do coração?',
+        'respostas': ['Grêmio', 'Inter']
+      },
+      {
+        'texto': 'Qual jogador você gostaria de ter no seu time?',
+        'respostas': ['Cristiano Ronaldo', 'Messi', 'Neymar', 'Mbappe']
+      },
+      {
+        'texto': 'Qual goleiro você gostaria de ter no seu time?',
+        'respostas': ['T. Courtois', 'Alisson', 'ter Stegen', 'de Gea']
+      }
     ];
+
+    List<String> respostas = perguntas[_perguntaSelecionada]['respostas']; 
 
     return MaterialApp(
       home: Scaffold(
@@ -27,10 +39,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         body: Column(
           children: [
-            Questao(perguntas[_perguntaSelecionada]),
-            Resposta('Resposta 1', _responder),
-            Resposta('Resposta 2', _responder),
-            Resposta('Resposta 3', _responder)
+            Questao(perguntas[_perguntaSelecionada]['texto']),
+            ...respostas.map((t) => Resposta(t, _responder)).toList()
           ],
         ),
       ),
@@ -42,5 +52,4 @@ class PerguntaApp extends StatefulWidget {
   _PerguntaAppState createState() {
     return _PerguntaAppState();
   }
-
 }
