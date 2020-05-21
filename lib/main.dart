@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './Questao.dart';
-import './Resposta.dart';
+import 'package:projeto_perguntas/resultado.dart';
+import './resultado.dart';
+import './questinario.dart';
 
 main() => runApp(PerguntaApp());
 
@@ -21,6 +22,10 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   ];
 
+  bool get isThereQuestion {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
   void _responder() {
     if (isThereQuestion) {
       setState(() {
@@ -29,38 +34,21 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
-  bool get isThereQuestion {
-    return _perguntaSelecionada < _perguntas.length;
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<String> respostas =
-        isThereQuestion ? _perguntas[_perguntaSelecionada]['respostas'] : null;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
         body: isThereQuestion
-            ? Column(
-                children: [
-                  Questao(_perguntas[_perguntaSelecionada]['texto']),
-                  ...respostas.map((t) => Resposta(t, _responder)).toList()
-                ],
+            ? Questionario(
+                perguntas: [], 
+                perguntaSelecionada: 0,
+                responder: _responder
               )
-            : Center(
-                child: Text(
-                  'Parabéns!',
-                  style: TextStyle(
-                    fontSize: 28,
-                    color: Colors.blue
-                  ),
-                ),
-              ),
-              
-      ),
+            : Resultado(),
+      )
     );
   }
 }
