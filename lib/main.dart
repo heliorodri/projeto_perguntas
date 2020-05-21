@@ -6,43 +6,51 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      'texto': 'Qual o seu time do coração?',
+      'respostas': ['Grêmio', 'Inter']
+    },
+    {
+      'texto': 'Qual jogador você gostaria de ter no seu time?',
+      'respostas': ['Cristiano Ronaldo', 'Messi', 'Neymar', 'Mbappe']
+    },
+    {
+      'texto': 'Qual goleiro você gostaria de ter no seu time?',
+      'respostas': ['T. Courtois', 'Alisson', 'ter Stegen', 'de Gea']
+    }
+  ];
 
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
+    if(isThereQuestion){
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
+  }
+
+  bool get isThereQuestion {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, Object>> perguntas = [
-      {
-        'texto': 'Qual o seu time do coração?',
-        'respostas': ['Grêmio', 'Inter']
-      },
-      {
-        'texto': 'Qual jogador você gostaria de ter no seu time?',
-        'respostas': ['Cristiano Ronaldo', 'Messi', 'Neymar', 'Mbappe']
-      },
-      {
-        'texto': 'Qual goleiro você gostaria de ter no seu time?',
-        'respostas': ['T. Courtois', 'Alisson', 'ter Stegen', 'de Gea']
-      }
-    ];
-
-    List<String> respostas = perguntas[_perguntaSelecionada]['respostas']; 
+    List<String> respostas =
+        isThereQuestion ? _perguntas[_perguntaSelecionada]['respostas'] : null;
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Column(
-          children: [
-            Questao(perguntas[_perguntaSelecionada]['texto']),
-            ...respostas.map((t) => Resposta(t, _responder)).toList()
-          ],
-        ),
+        body: isThereQuestion
+            ? Column(
+                children: [
+                  Questao(_perguntas[_perguntaSelecionada]['texto']),
+                  ...respostas.map((t) => Resposta(t, _responder)).toList()
+                ],
+              )
+            : null,
       ),
     );
   }
