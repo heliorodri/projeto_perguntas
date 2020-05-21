@@ -10,21 +10,43 @@ class _PerguntaAppState extends State<PerguntaApp> {
   final _perguntas = const [
     {
       'texto': 'Qual o seu time do coração?',
-      'respostas': ['Grêmio', 'Inter']
+      'respostas': [
+        {'texto': 'Grêmio', 'valor': 10},
+        {'texto': 'Inter', 'valor': 10},
+      ],
     },
     {
       'texto': 'Qual jogador você gostaria de ter no seu time?',
-      'respostas': ['Cristiano Ronaldo', 'Messi', 'Neymar', 'Mbappe']
+      'respostas': [
+        {'texto': 'Cristiano Ronaldo', 'valor': 10},
+        {'texto': 'Messi', 'valor': 10},
+        {'texto': 'Neymar', 'valor': 9},
+        {'texto': 'Mbappe', 'valor': 9},
+        {'texto': 'Di Maria', 'valor': 8},
+        {'texto': 'Arthur', 'valor': 8},
+      ],
     },
     {
       'texto': 'Qual goleiro você gostaria de ter no seu time?',
-      'respostas': ['T. Courtois', 'Alisson', 'ter Stegen', 'de Gea']
-    }
+      'respostas': [
+        {'texto': 'T. Courtois', 'valor': 10},
+        {'texto': 'Alisson', 'valor': 10},
+        {'texto': 'ter Stegen', 'valor': 9},
+        {'texto': 'de Gea', 'valor': 9},
+        {'texto': 'Buffon', 'valor': 8},
+        {'texto': 'Cassilas', 'valor': 8},
+      ],
+    },
+    {
+      'texto': 'Qual treinador você gostaria de ter no seu time?',
+      'respostas': [
+        {'texto': 'Guardiola', 'valor': 10},
+        {'texto': 'Klopp', 'valor': 10},
+        {'texto': 'Renato Gaucho', 'valor': 9},
+        {'texto': 'Jorge Jesus', 'valor': 9},
+      ],
+    },
   ];
-
-  bool get isThereQuestion {
-    return _perguntaSelecionada < _perguntas.length;
-  }
 
   void _responder() {
     if (isThereQuestion) {
@@ -32,6 +54,10 @@ class _PerguntaAppState extends State<PerguntaApp> {
         _perguntaSelecionada++;
       });
     }
+  }
+
+  bool get isThereQuestion {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
@@ -43,8 +69,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         body: isThereQuestion
             ? Questionario(
-                perguntas: [], 
-                perguntaSelecionada: 0,
+                perguntas: _perguntas, 
+                perguntaSelecionada: _perguntaSelecionada, 
                 responder: _responder
               )
             : Resultado(),

@@ -10,7 +10,8 @@ class Questionario extends StatelessWidget {
   Questionario({
     @required this.perguntas,
     @required this.perguntaSelecionada, 
-    @required this.responder});
+    @required this.responder
+  });
 
   bool get isThereQuestion {
     return perguntaSelecionada < perguntas.length;
@@ -18,12 +19,16 @@ class Questionario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = perguntas[this.perguntaSelecionada]['respostas'];
+    List<Map<String, Object>> respostas = isThereQuestion 
+        ? perguntas[perguntaSelecionada]['respostas'] 
+        : null;
 
     return Column(
       children: <Widget>[
-        Questao(this.perguntas[this.perguntaSelecionada]['texto']),
-        ...respostas.map((t) => Resposta(t, this.responder)).toList()
+        Questao(perguntas[perguntaSelecionada]['texto']),
+        ...respostas
+            .map((resp) => Resposta(resp['texto'], responder))
+            .toList()
       ],
     );
   }
