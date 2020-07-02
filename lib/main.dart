@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_perguntas/Questionario.dart';
 import 'package:projeto_perguntas/resultado.dart';
 import './resultado.dart';
-import './questinario.dart';
+import './Questionario.dart';
 
 main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
-  var _pontos_total = 0;
+  var _pontosTotal = 0;
   final _perguntas = const [
     {
       'texto': 'Qual o seu time do coração?',
@@ -53,9 +54,16 @@ class _PerguntaAppState extends State<PerguntaApp> {
     if (isThereQuestion) {
       setState(() {
         _perguntaSelecionada++;
-         _pontos_total += pontuacao;
+        _pontosTotal += pontuacao;
       });
     }
+  }
+
+  void _reiniciar() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontosTotal = 0;
+    });
   }
 
   bool get isThereQuestion {
@@ -65,19 +73,17 @@ class _PerguntaAppState extends State<PerguntaApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Perguntas'),
-        ),
-        body: isThereQuestion
-            ? Questionario(
-                perguntas: _perguntas, 
-                perguntaSelecionada: _perguntaSelecionada, 
-                responder: _responder
-              )
-            : Resultado(),
-      )
-    );
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('Perguntas'),
+      ),
+      body: isThereQuestion
+          ? Questionario(
+              perguntas: _perguntas,
+              perguntaSelecionada: _perguntaSelecionada,
+              responder: _responder)
+          : Resultado(_pontosTotal, _reiniciar),
+    ));
   }
 }
 
